@@ -16,30 +16,36 @@ public class ArrayQueue implements Queue {
 
     @Override
     public void enqueue(Object value) {
-
+        array[size] = value;
+        size++;
     }
 
     @Override
     public Object dequeue() {
-        return null;
+        if (isEmpty()) {
+            throw new IllegalStateException("Queue is empty!");
+        }
+        Object result = array[size-1];
+        size--;
+        return result;
     }
 
     @Override
     public Object peek() {//взять елемент
         if(isEmpty()) {
-            System.out.printf("");
+            System.out.printf("No objects to peek");
         }
-        return array[startQ-1];
+        return array[size-1];
     }
 
     @Override
     public int size() {
-        return endQ - startQ;
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     @Override
@@ -49,9 +55,6 @@ public class ArrayQueue implements Queue {
 
     @Override
     public void clear() {
-        array = new Object[0];
-        endQ = 0;
-        startQ = 0;
-
+        size =0;
     }
 }
