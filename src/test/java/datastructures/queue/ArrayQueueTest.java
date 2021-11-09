@@ -1,21 +1,38 @@
 package datastructures.queue;
 
 import datastructures.stack.ArrayStack;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/*void enqueue(Object value);
-    Object dequeue();
-    Object peek();
-    int size();
-    boolean isEmpty();
-    boolean contains(Object value);
-    void clear();*/
-
 public class ArrayQueueTest {
+
+    @Test
+    public void testEnqueueAndDequeue(){
+        ArrayQueue arrayQueue = new ArrayQueue();
+        arrayQueue.enqueue("A");
+        arrayQueue.enqueue("B");
+        arrayQueue.enqueue("C");
+
+        assertEquals(3,arrayQueue.size());
+        assertEquals("A",arrayQueue.peek());
+        arrayQueue.dequeue();
+
+        assertEquals(2,arrayQueue.size());
+    }
+
+    @Test
+    public void testEnqueueNull(){
+        ArrayQueue arrayQueue = new ArrayQueue();
+
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            arrayQueue.enqueue(null);
+        });
+        assertTrue(arrayQueue.isEmpty());
+    }
 
     @Test
     public void testEnqueueAndPeek(){
@@ -24,17 +41,26 @@ public class ArrayQueueTest {
         arrayQueue.enqueue("B");
         arrayQueue.enqueue("C");
 
-        assertEquals(3,arrayQueue.size());
+        assertFalse(arrayQueue.isEmpty());
 
-        assertEquals("A",arrayQueue.dequeue());
-        assertEquals("B",arrayQueue.dequeue());
-        assertEquals("C",arrayQueue.dequeue());
-        assertTrue(arrayQueue.isEmpty());
+        assertEquals(3,arrayQueue.size());
+        assertEquals("A",arrayQueue.peek());
+        assertEquals("A",arrayQueue.peek());
+        assertEquals(3,arrayQueue.size());
     }
 
     @Test
     public void testDequeueAndPeek(){
+        ArrayQueue arrayQueue = new ArrayQueue();
+        arrayQueue.enqueue("A");
+        arrayQueue.enqueue("B");
+        arrayQueue.enqueue("C");
 
+        assertFalse(arrayQueue.isEmpty());
+
+        arrayQueue.dequeue();
+        assertEquals("B",arrayQueue.peek());
+        assertEquals(2,arrayQueue.size());
     }
 
     @Test
@@ -48,7 +74,31 @@ public class ArrayQueueTest {
     public void testIsEmptyReturnFalseOnQueueWithData() {
         ArrayQueue arrayQueue = new ArrayQueue();
         arrayQueue.enqueue("A");
+        arrayQueue.enqueue("A");
 
         assertFalse(arrayQueue.isEmpty());
+    }
+
+    @Test
+    public void testIsEmptyReturnTrueOnStackAfterClear() {
+        ArrayQueue arrayQueue = new ArrayQueue();
+        arrayQueue.enqueue("A");
+        arrayQueue.enqueue("A");
+
+        arrayQueue.clear();
+
+        assertTrue(arrayQueue.isEmpty());
+    }
+
+    @Test
+    public void testContainsReturnTrue() {
+        ArrayQueue arrayQueue = new ArrayQueue();
+        arrayQueue.enqueue("A");
+        arrayQueue.enqueue("A");
+        arrayQueue.enqueue("B");
+        arrayQueue.enqueue("D");
+
+        assertTrue(arrayQueue.contains(new String("A")));
+        assertTrue(arrayQueue.contains(new String("D")));
     }
 }

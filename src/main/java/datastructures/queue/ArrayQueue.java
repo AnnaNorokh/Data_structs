@@ -2,30 +2,45 @@ package datastructures.queue;
 
 public class ArrayQueue implements Queue {
 
-    private  int size;
-    int startQ, endQ;
+    private int size;
     private Object[] array;
-
     public ArrayQueue (){
         array = new Object[10];
     }
 
-    public ArrayQueue(int size) {
-        array = new Object[size];
+    public ArrayQueue(int startQ,int endQ) {
+        array = new Object[startQ-endQ];
     }
-
+    
     @Override
     public void enqueue(Object value) {
-        array[size] = value;
+        if (value == null) {
+            throw new NullPointerException("Can`t add null value in queue");
+        }
+        updateSize();
+        Object[] updatQueue = new Object[size + 1];
+        updatQueue[0] = value;
+        for (int i = 0; i < size; i++) {
+            updatQueue[i + 1] = array[i];
+        }
+        array = updatQueue;
         size++;
+    }
+
+    private void updateSize (){
+        if (size == array.length) {
+            Object[] updatedArray = new Object[array.length * 2];
+            System.arraycopy(array, 0, updatedArray, 0, array.length);
+            array = updatedArray;
+        }
     }
 
     @Override
     public Object dequeue() {
         if (isEmpty()) {
-            throw new IllegalStateException("Queue is empty!");
+            throw new IllegalStateException("Queue is empty");
         }
-        Object result = array[size-1];
+        Object result = array[size - 1];
         size--;
         return result;
     }
@@ -33,7 +48,7 @@ public class ArrayQueue implements Queue {
     @Override
     public Object peek() {//взять елемент
         if(isEmpty()) {
-            System.out.printf("No objects to peek");
+            System.out.print("No objects to peek");
         }
         return array[size-1];
     }
@@ -50,11 +65,20 @@ public class ArrayQueue implements Queue {
 
     @Override
     public boolean contains(Object value) {
+        if (value == null) {
+            throw new NullPointerException("No such value");
+        }
+        for (int i = 0; i < size; i++) {
+            if (array[i].equals(value)) {
+                return true;
+            }
+        }
         return false;
-    }   //вклюсает
+    }
 
     @Override
     public void clear() {
-        size =0;
+        size = 0;
+
     }
 }
