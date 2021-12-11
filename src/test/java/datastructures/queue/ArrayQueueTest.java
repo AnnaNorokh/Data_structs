@@ -1,6 +1,6 @@
 package datastructures.queue;
 
-import datastructures.stack.ArrayStack;
+import datastructures.queue.ArrayQueue;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -65,9 +65,9 @@ public class ArrayQueueTest {
 
     @Test
     public void testIsEmptyReturnTrueOnNewQueue() {
-        ArrayStack arrayStack = new ArrayStack();
+        ArrayQueue arrayQueue = new ArrayQueue();
 
-        assertTrue(arrayStack.isEmpty());
+        assertTrue(arrayQueue.isEmpty());
     }
 
     @Test

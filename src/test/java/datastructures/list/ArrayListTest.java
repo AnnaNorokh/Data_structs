@@ -63,7 +63,7 @@ public class ArrayListTest {
         list.add("Bird");
         list.add("Butterfly");
 
-        assertFalse(list.contains("Cat"));
+        assertTrue(list.contains("Cat"));
 
         list.clear();
 
