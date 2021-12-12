@@ -6,28 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/*  public void add(Object value) {
-
-    public void add(Object value, int index) {
-
-    public Object remove(int index) {
-
-    public Object get(int index) {
-
-    public Object set(Object value, int index) {
-
-    public void clear() {
-
-    public int size() {
-
-    public boolean isEmpty() {
-
-    public boolean contains(Object value) {
-
-    public int indexOf(Object value) {
-
-    public int lastIndexOf(Object value) {}*/
-
 public class LinkedListTest {
 
     @Test

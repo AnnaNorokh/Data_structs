@@ -7,7 +7,6 @@ public class LinkedList<T> implements List<T> {
     int size;
 
     private static class Node<T> {
-
         Node<T> next;
         Node<T> prev;
         T nodeValue;
@@ -27,7 +26,7 @@ public class LinkedList<T> implements List<T> {
         Node<T> newNode = new Node<>(value);
         if (size == 0) {
             head = tail = newNode;
-        } else if (index == size - 1) {
+        } else if (index == (size - 1)) {
             tail.next = newNode;
             newNode.prev = tail;
             tail = newNode;
@@ -35,7 +34,15 @@ public class LinkedList<T> implements List<T> {
             head.prev = newNode;
             newNode.next = head;
             head = newNode;
+        } else {
+            Node<T> currentNode = getNode(index - 1);
+            newNode.prev = currentNode;
+            currentNode.next = newNode;
+            currentNode.next.prev = newNode;
         }
+
+        size ++;
+
     }
 
     @Override
@@ -44,8 +51,32 @@ public class LinkedList<T> implements List<T> {
             throw new IndexOutOfBoundsException("Index is out of bounds");
         }
 
-
-        return null;
+        Node<T> node = head;
+        Node<T> nodePrev;
+        Node<T> nodeNext ;
+        Node<T> removedNode;
+        if (index == 0) {
+            removedNode = head;
+            if (size == 1) {
+                tail = head = null;
+            } else {
+                head = node.next;
+                head.prev = null;
+            }
+        } else if (index == (size - 1)) {
+            removedNode = tail;
+            tail = tail.prev;
+            tail.next = null;
+        } else {
+            nodePrev = getNode(index - 1);
+            nodeNext = getNode(index + 1);
+            removedNode = getNode(index );
+            nodeNext.prev = removedNode.prev;
+            nodePrev.next = removedNode.next;
+            removedNode.prev = removedNode.next = null;
+        }
+        size--;
+        return removedNode.nodeValue;
     }
 
     @Override
@@ -54,7 +85,8 @@ public class LinkedList<T> implements List<T> {
             throw new IndexOutOfBoundsException("Index is out of bounds");
         }
 
-        return null;
+        Node<T> node = getNode(index);
+        return node.nodeValue;
     }
 
     @Override
@@ -63,8 +95,10 @@ public class LinkedList<T> implements List<T> {
             throw new IndexOutOfBoundsException("Index is out of bounds");
         }
 
+        Node<T> node = getNode(index);
+        node.nodeValue = value;
 
-        return null;
+        return node.nodeValue;
     }
 
 
@@ -87,6 +121,12 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public boolean contains(T value) {
+        for (int i = 0; i < size - 1; i++){
+            Node<T> node = getNode(i);
+            if(value.equals(node.nodeValue)){
+                return true;
+            }
+        }
         return false;
     }
 
@@ -102,12 +142,27 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public int lastIndexOf(T value) {
-        for (int i = 0; i <= size; i--) {
+        for (int i = size - 1 ; i <= size; i--) {
             if (get(i).equals(value)) {
                 return i;
             }
         }
         return -1;
+    }
+    private Node<T> getNode(int index) {
+        Node<T> current;
+        if (size / 2 >= index) {
+            current = head;
+            for (int i = 0; i < index; i++) {
+                current = current.next;
+            }
+        } else {
+            current = tail;
+            for (int i = 0; i < size - index - 1; i++) {
+                current = current.prev;
+            }
+        }
+        return current;
     }
 
 }
